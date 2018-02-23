@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jzteam.barber.dao.EmployeeDao">
+    <!-- 数据对象映射。 -->
+    <resultMap id="EmployeeMap" type="cn.jzteam.barber.dao.entity.EmployeeEntity">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="TINYINT"/>
+        <result column="img" property="img" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="entry_time" property="entryTime" jdbcType="VARCHAR"/>
+        <result column="levae_time" property="levaeTime" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="delete_flag" property="deleteFlag" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <!-- 表中所有字段。 -->
+    <sql id="table_all_columns">
+        `id`, `phone`, `password`, `name`, `sex`, `img`, `status`, `entry_time`, `levae_time`, `create_time`, `modify_time`, `delete_flag`
+    </sql>
+    
+    <!-- 判断要获取的列。 -->
+    <sql id="sql_query_column">
+        <choose>
+            <when test="query.queryColumnStr != null">${query.queryColumnStr}</when>
+            <otherwise><include refid="table_all_columns"/></otherwise>
+        </choose>
+    </sql>
+
+    <!-- 共用sql部分，根据Query对象生成查询条件。FLOAT类型不支持相等查询 -->
+    <sql id="sql_query_condition">
+        <if test="query.id != null"> AND id = #{query.id, jdbcType=INTEGER} </if>
+        <if test="query.phone != null"> AND phone = #{query.phone, jdbcType=VARCHAR} </if>
+        <if test="query.password != null"> AND password = #{query.password, jdbcType=VARCHAR} </if>
+        <if test="query.name != null"> AND name = #{query.name, jdbcType=VARCHAR} </if>
+        <if test="query.sex != null"> AND sex = #{query.sex, jdbcType=TINYINT} </if>
+        <if test="query.img != null"> AND img = #{query.img, jdbcType=VARCHAR} </if>
+        <if test="query.status != null"> AND status = #{query.status, jdbcType=TINYINT} </if>
+        <if test="query.entryTime != null"> AND entry_time = #{query.entryTime, jdbcType=VARCHAR} </if>
+        <if test="query.levaeTime != null"> AND levae_time = #{query.levaeTime, jdbcType=VARCHAR} </if>
+        <if test="query.createTimeBegin != null"> AND create_time >= #{query.createTimeBegin, jdbcType=TIMESTAMP} </if>
+        <if test="query.createTimeEnd != null"> AND create_time &lt; #{query.createTimeEnd, jdbcType=TIMESTAMP} </if>
+        <if test="query.modifyTimeBegin != null"> AND modify_time >= #{query.modifyTimeBegin, jdbcType=TIMESTAMP} </if>
+        <if test="query.modifyTimeEnd != null"> AND modify_time &lt; #{query.modifyTimeEnd, jdbcType=TIMESTAMP} </if>
+        <if test="query.deleteFlag != null"> AND delete_flag = #{query.deleteFlag, jdbcType=TINYINT} </if>
+    </sql>
+
+    <!-- 判断排序依据。 -->
+    <sql id="sql_order_by">
+        <choose>
+            <when test="query.orderStr != null"> ORDER BY ${query.orderStr} </when>
+            <otherwise> ORDER BY id ASC </otherwise>
+        </choose>
+    </sql>
+
+    
+    
+
+</mapper>
+

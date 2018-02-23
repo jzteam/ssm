@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jzteam.barber.dao.ProductDao">
+    <!-- 数据对象映射。 -->
+    <resultMap id="ProductBaseMap" type="cn.jzteam.barber.dao.entity.ProductEntity">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="INTEGER"/>
+        <result column="price" property="price" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="delete_flag" property="deleteFlag" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <!-- 表中所有字段。 -->
+    <sql id="base_table_all_columns">
+        `id`, `name`, `price`, `status`, `create_time`, `modify_time`, `delete_flag`
+    </sql>
+    
+    <!-- 判断要获取的列。 -->
+    <sql id="base_sql_query_column">
+        <choose>
+            <when test="query.queryColumnStr != null">${query.queryColumnStr}</when>
+            <otherwise><include refid="base_table_all_columns"/></otherwise>
+        </choose>
+    </sql>
+
+    <!-- 共用sql部分，根据Query对象生成查询条件。FLOAT类型不支持相等查询 -->
+    <sql id="base_sql_query_condition">
+        <if test="query.id != null"> AND `id` = #{query.id, jdbcType=INTEGER} </if>
+        <if test="query.name != null"> AND `name` = #{query.name, jdbcType=INTEGER} </if>
+        <if test="query.price != null"> AND `price` = #{query.price, jdbcType=INTEGER} </if>
+        <if test="query.status != null"> AND `status` = #{query.status, jdbcType=TINYINT} </if>
+        <if test="query.createTimeBegin != null"> AND `create_time` >= #{query.createTimeBegin, jdbcType=TIMESTAMP} </if>
+        <if test="query.createTimeEnd != null"> AND `create_time` &lt; #{query.createTimeEnd, jdbcType=TIMESTAMP} </if>
+        <if test="query.modifyTimeBegin != null"> AND `modify_time` >= #{query.modifyTimeBegin, jdbcType=TIMESTAMP} </if>
+        <if test="query.modifyTimeEnd != null"> AND `modify_time` &lt; #{query.modifyTimeEnd, jdbcType=TIMESTAMP} </if>
+        <if test="query.deleteFlag != null"> AND `delete_flag` = #{query.deleteFlag, jdbcType=TINYINT} </if>
+    </sql>
+
+    <!-- 判断排序依据。 -->
+    <sql id="base_sql_order_by">
+        <choose>
+            <when test="query.orderStr != null"> ORDER BY ${query.orderStr} </when>
+            <otherwise> ORDER BY `id` ASC </otherwise>
+        </choose>
+    </sql>
+
+    <!-- insert，Id会更新到Bean中，返回结果为新增到记录数。 -->
+    <insert id="insert" parameterType="java.util.Map">
+        <selectKey resultType="java.lang.Integer" keyProperty="entity.id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO `product` (
+	        <trim suffixOverrides=",">
+	       		<if test="entity.name != null">
+	       			`name`, 
+	       		</if>
+	       		<if test="entity.price != null">
+	       			`price`, 
+	       		</if>
+	       		<if test="entity.status != null">
+	       			`status`, 
+	       		</if>
+	       		<if test="entity.createTime != null">
+	       			`create_time`, 
+	       		</if>
+	       		<if test="entity.modifyTime != null">
+	       			`modify_time`, 
+	       		</if>
+	       		<if test="entity.deleteFlag != null">
+	       			`delete_flag`
+	       		</if>
+	        </trim>
+        ) VALUES (
+	        <trim suffixOverrides=",">
+	        	<if test="entity.name != null">
+	        		#{entity.name, jdbcType=INTEGER}, 
+	        	</if>
+	        	<if test="entity.price != null">
+	        		#{entity.price, jdbcType=INTEGER}, 
+	        	</if>
+	        	<if test="entity.status != null">
+	        		#{entity.status, jdbcType=TINYINT}, 
+	        	</if>
+            	NOW(), 
+            	NOW(), 
+	        	<if test="entity.deleteFlag != null">
+	        		#{entity.deleteFlag, jdbcType=TINYINT}
+	        	</if>
+	        </trim>
+        )
+    </insert>
+    
+    
+    <!-- insertBatch，批量插入 -->
+    <insert id="insertBatch" parameterType="java.util.Map">
+    	<foreach collection="list" item="entity" separator=";">
+
+            INSERT INTO `product` (
+		        <trim suffixOverrides=",">
+		       		<if test="entity.name != null">
+		       			`name`, 
+		       		</if>
+		       		<if test="entity.price != null">
+		       			`price`, 
+		       		</if>
+		       		<if test="entity.status != null">
+		       			`status`, 
+		       		</if>
+		       		<if test="entity.createTime != null">
+		       			`create_time`, 
+		       		</if>
+		       		<if test="entity.modifyTime != null">
+		       			`modify_time`, 
+		       		</if>
+		       		<if test="entity.deleteFlag != null">
+		       			`delete_flag`
+		       		</if>
+		        </trim>
+	        ) VALUES (
+		        <trim suffixOverrides=",">
+		        	<if test="entity.name != null">
+		        		#{entity.name, jdbcType=INTEGER}, 
+		        	</if>
+		        	<if test="entity.price != null">
+		        		#{entity.price, jdbcType=INTEGER}, 
+		        	</if>
+		        	<if test="entity.status != null">
+		        		#{entity.status, jdbcType=TINYINT}, 
+		        	</if>
+            		NOW(), 
+            		NOW(), 
+		        	<if test="entity.deleteFlag != null">
+		        		#{entity.deleteFlag, jdbcType=TINYINT}
+		        	</if>
+		        </trim>
+	        )
+        
+        </foreach>
+        ;
+    </insert>
+    
+
+    <!-- delete，根据主键删除指定表数据。 -->
+    <delete id="delete" parameterType="java.util.Map">
+    DELETE FROM `product` WHERE `id` =#{id, jdbcType=INTEGER}    </delete>
+    
+    
+    <!-- deleteBatch，批量删除，根据id -->
+    <delete id="deleteBatch" parameterType="java.util.Map">
+    DELETE FROM `product` WHERE `id` IN
+        <foreach collection="list" item="item" open="(" close=")" separator=",">#{item}</foreach>
+    </delete>
+    
+
+    <!-- update，根据主键更新表数据。 -->
+    <update id="update" parameterType="java.util.Map">
+    UPDATE `product`
+        <set>
+            <if test="entity.name != null">`name` = #{entity.name, jdbcType=INTEGER}, </if>
+            <if test="entity.price != null">`price` = #{entity.price, jdbcType=INTEGER}, </if>
+            <if test="entity.status != null">`status` = #{entity.status, jdbcType=TINYINT}, </if>
+            <if test="entity.createTime != null">`create_time` = #{entity.createTime, jdbcType=TIMESTAMP}, </if>
+            <if test="entity.modifyTime != null">`modify_time` = #{entity.modifyTime, jdbcType=TIMESTAMP}, </if>
+            <if test="entity.deleteFlag != null">`delete_flag` = #{entity.deleteFlag, jdbcType=TINYINT}, </if>
+            `modify_time` = NOW(),
+        </set>
+        WHERE id = #{entity.id, jdbcType=INTEGER}
+    </update>
+    
+    
+    
+    <!-- updateBatch，批量更新，根据id -->
+<update id="updateBatch" parameterType="java.util.Map">
+    	<foreach collection="list" separator=";" item="entity">
+            UPDATE `product`
+	        <set>
+	            <if test="entity.name != null">`name` = #{entity.name, jdbcType=INTEGER}, </if>
+	            <if test="entity.price != null">`price` = #{entity.price, jdbcType=INTEGER}, </if>
+	            <if test="entity.status != null">`status` = #{entity.status, jdbcType=TINYINT}, </if>
+	            <if test="entity.createTime != null">`create_time` = #{entity.createTime, jdbcType=TIMESTAMP}, </if>
+	            <if test="entity.modifyTime != null">`modify_time` = #{entity.modifyTime, jdbcType=TIMESTAMP}, </if>
+	            <if test="entity.deleteFlag != null">`delete_flag` = #{entity.deleteFlag, jdbcType=TINYINT}, </if>
+	            `modify_time` = NOW(),
+	        </set>
+	        WHERE id = #{entity.id, jdbcType=INTEGER}
+    	</foreach>
+    	;
+    </update>
+    
+    <!-- update，根据条件更新 -->
+    <update id="updateSpecial" parameterType="java.util.Map">
+    UPDATE `product`
+        <set>
+            <if test="entity.name != null">`name` = #{entity.name, jdbcType=INTEGER}, </if>
+            <if test="entity.price != null">`price` = #{entity.price, jdbcType=INTEGER}, </if>
+            <if test="entity.status != null">`status` = #{entity.status, jdbcType=TINYINT}, </if>
+            <if test="entity.createTime != null">`create_time` = #{entity.createTime, jdbcType=TIMESTAMP}, </if>
+            <if test="entity.modifyTime != null">`modify_time` = #{entity.modifyTime, jdbcType=TIMESTAMP}, </if>
+            <if test="entity.deleteFlag != null">`delete_flag` = #{entity.deleteFlag, jdbcType=TINYINT}, </if>
+            `modify_time` = NOW(),
+        </set>
+        <where>
+            <include refid="base_sql_query_condition"/>
+        </where>
+    </update>
+    
+    
+    <!-- incr，根据id把field字段增加delta，限于数字类型；mysql5.6以上版本 -->
+<update id="incr" parameterType="java.util.Map">
+UPDATE `product`
+        <set>
+        	`${field}` = `${field}` + #{delta}, 
+        </set>
+        WHERE `id` = #{entity.id, jdbcType=INTEGER}
+    </update>
+    
+    
+    <!-- decr，根据id把field字段增加delta，限于数字类型；mysql5.6以上版本 -->
+<update id="decr" parameterType="java.util.Map">
+UPDATE `product`
+        <set>
+        	`${field}` = `${field}` - #{delta}, 
+        </set>
+        WHERE `id` = #{entity.id, jdbcType=INTEGER}
+    </update>
+    
+
+    <!-- selectById，根据主键获取唯一数据。 -->
+    <select id="selectById" resultMap="ProductBaseMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="base_table_all_columns"/>
+    FROM `product` WHERE id =#{id,
+    jdbcType=INTEGER}    </select>
+
+
+	<!-- selectByIds，根据主键获取记录列表 -->
+    <select id="selectByIds" resultMap="ProductBaseMap" parameterType="java.lang.Integer">
+    SELECT
+    <include refid="base_table_all_columns"/>
+    FROM `product`
+        <where> id IN 
+	        <foreach collection="list" open="(" separator="," close=")" item="itemId">#{itemId}</foreach>
+    	</where>
+    </select>
+
+
+    <!-- selectByIds，根据主键获取唯一数据。 -->
+<select id="selectById_readLock" resultMap="ProductBaseMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="base_table_all_columns"/>
+    FROM `product` WHERE id =#{id,
+    jdbcType=INTEGER} FOR UPDATE
+    </select>
+
+
+    <!-- selectFirstOne，根据query条件过滤数据，按照主键生序排列获取第一条数据。 -->
+    <select id="selectFirstOne" resultMap="ProductBaseMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="base_table_all_columns"/>
+    FROM `product`
+        <where>
+            <include refid="base_sql_query_condition"/>
+        </where>
+        <include refid="base_sql_order_by" /> LIMIT 1
+    </select>
+
+
+    <!-- 根据query条件获取数据列表。 -->
+    <select id="selectList" resultMap="ProductBaseMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="base_sql_query_column"/>
+    FROM `product`
+        <where>
+            <include refid="base_sql_query_condition"/>
+        </where>
+        <include refid="base_sql_order_by" />
+    </select>
+
+
+    <!-- 根据query条件获取记录总数。 -->
+<select id="queryCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    SELECT COUNT(*) FROM `product`
+        <where>
+            <include refid="base_sql_query_condition"/>
+        </where>
+    </select>
+    
+    
+    <!-- 根据query条件分页获取指定页码的数据。 -->
+    <select id="queryPageList" resultMap="ProductBaseMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="base_sql_query_column"/>
+    FROM `product`
+        <where>
+            <include refid="base_sql_query_condition"/>
+        </where>
+        <include refid="base_sql_order_by" />
+        LIMIT ${query.startIndex}, ${query.pageSize}
+    </select>
+
+</mapper>
+
