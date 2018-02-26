@@ -30,7 +30,6 @@ public class EmployeeServiceImpl extends AbstractBaseServiceImpl<EmployeeEntity,
 		entity.setEntryTime(form.getEntryTime());
 		entity.setLevaeTime(form.getLevaeTime());
 		entity.setCreateTime(form.getCreateTime());
-		entity.setModifyTime(form.getModifyTime());
 		entity.setDeleteFlag(form.getDeleteFlag());
 		return entity;
 	}
@@ -50,7 +49,6 @@ public class EmployeeServiceImpl extends AbstractBaseServiceImpl<EmployeeEntity,
 		form.setEntryTime(entity.getEntryTime());
 		form.setLevaeTime(entity.getLevaeTime());
 		form.setCreateTime(entity.getCreateTime());
-		form.setModifyTime(entity.getModifyTime());
 		form.setDeleteFlag(entity.getDeleteFlag());
 		return form;
 	}

@@ -26,7 +26,6 @@ public class UserServiceImpl extends AbstractBaseServiceImpl<UserEntity, Integer
 		entity.setSex(form.getSex());
 		entity.setMoney(form.getMoney());
 		entity.setCreateTime(form.getCreateTime());
-		entity.setModifyTime(form.getModifyTime());
 		entity.setDeleteFlag(form.getDeleteFlag());
 		return entity;
 	}
@@ -42,7 +41,6 @@ public class UserServiceImpl extends AbstractBaseServiceImpl<UserEntity, Integer
 		form.setSex(entity.getSex());
 		form.setMoney(entity.getMoney());
 		form.setCreateTime(entity.getCreateTime());
-		form.setModifyTime(entity.getModifyTime());
 		form.setDeleteFlag(entity.getDeleteFlag());
 		return form;
 	}

@@ -26,7 +26,6 @@ public class FinanceServiceImpl extends AbstractBaseServiceImpl<FinanceEntity, I
 		entity.setType(form.getType());
 		entity.setAmount(form.getAmount());
 		entity.setCreateTime(form.getCreateTime());
-		entity.setModifyTime(form.getModifyTime());
 		entity.setDeleteFlag(form.getDeleteFlag());
 		return entity;
 	}
@@ -42,7 +41,6 @@ public class FinanceServiceImpl extends AbstractBaseServiceImpl<FinanceEntity, I
 		form.setType(entity.getType());
 		form.setAmount(entity.getAmount());
 		form.setCreateTime(entity.getCreateTime());
-		form.setModifyTime(entity.getModifyTime());
 		form.setDeleteFlag(entity.getDeleteFlag());
 		return form;
 	}

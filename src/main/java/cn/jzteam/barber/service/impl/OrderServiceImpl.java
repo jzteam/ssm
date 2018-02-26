@@ -27,7 +27,6 @@ public class OrderServiceImpl extends AbstractBaseServiceImpl<OrderEntity, Integ
 		entity.setAmount(form.getAmount());
 		entity.setStatus(form.getStatus());
 		entity.setCreateTime(form.getCreateTime());
-		entity.setModifyTime(form.getModifyTime());
 		entity.setDeleteFlag(form.getDeleteFlag());
 		return entity;
 	}
@@ -44,7 +43,6 @@ public class OrderServiceImpl extends AbstractBaseServiceImpl<OrderEntity, Integ
 		form.setAmount(entity.getAmount());
 		form.setStatus(entity.getStatus());
 		form.setCreateTime(entity.getCreateTime());
-		form.setModifyTime(entity.getModifyTime());
 		form.setDeleteFlag(entity.getDeleteFlag());
 		return form;
 	}

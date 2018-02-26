@@ -13,13 +13,12 @@
         <result column="entry_time" property="entryTime" jdbcType="VARCHAR"/>
         <result column="levae_time" property="levaeTime" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
-        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
         <result column="delete_flag" property="deleteFlag" jdbcType="TINYINT"/>
     </resultMap>
 
     <!-- 表中所有字段。 -->
     <sql id="base_table_all_columns">
-        `id`, `phone`, `password`, `name`, `sex`, `img`, `status`, `entry_time`, `levae_time`, `create_time`, `modify_time`, `delete_flag`
+        `id`, `phone`, `password`, `name`, `sex`, `img`, `status`, `entry_time`, `levae_time`, `create_time`, `delete_flag`
     </sql>
     
     <!-- 判断要获取的列。 -->
@@ -43,8 +42,6 @@
         <if test="query.levaeTime != null"> AND `levae_time` = #{query.levaeTime, jdbcType=VARCHAR} </if>
         <if test="query.createTimeBegin != null"> AND `create_time` >= #{query.createTimeBegin, jdbcType=TIMESTAMP} </if>
         <if test="query.createTimeEnd != null"> AND `create_time` &lt; #{query.createTimeEnd, jdbcType=TIMESTAMP} </if>
-        <if test="query.modifyTimeBegin != null"> AND `modify_time` >= #{query.modifyTimeBegin, jdbcType=TIMESTAMP} </if>
-        <if test="query.modifyTimeEnd != null"> AND `modify_time` &lt; #{query.modifyTimeEnd, jdbcType=TIMESTAMP} </if>
         <if test="query.deleteFlag != null"> AND `delete_flag` = #{query.deleteFlag, jdbcType=TINYINT} </if>
     </sql>
 
@@ -90,9 +87,6 @@
 	       		<if test="entity.createTime != null">
 	       			`create_time`, 
 	       		</if>
-	       		<if test="entity.modifyTime != null">
-	       			`modify_time`, 
-	       		</if>
 	       		<if test="entity.deleteFlag != null">
 	       			`delete_flag`
 	       		</if>
@@ -123,7 +117,6 @@
 	        	<if test="entity.levaeTime != null">
 	        		#{entity.levaeTime, jdbcType=VARCHAR}, 
 	        	</if>
-            	NOW(), 
             	NOW(), 
 	        	<if test="entity.deleteFlag != null">
 	        		#{entity.deleteFlag, jdbcType=TINYINT}
@@ -166,9 +159,6 @@
 		       		<if test="entity.createTime != null">
 		       			`create_time`, 
 		       		</if>
-		       		<if test="entity.modifyTime != null">
-		       			`modify_time`, 
-		       		</if>
 		       		<if test="entity.deleteFlag != null">
 		       			`delete_flag`
 		       		</if>
@@ -200,7 +190,6 @@
 		        		#{entity.levaeTime, jdbcType=VARCHAR}, 
 		        	</if>
             		NOW(), 
-            		NOW(), 
 		        	<if test="entity.deleteFlag != null">
 		        		#{entity.deleteFlag, jdbcType=TINYINT}
 		        	</if>
@@ -213,7 +202,7 @@
     
 
     <!-- delete，根据主键删除指定表数据。 -->
-    <delete id="delete" parameterType="java.util.Map">
+<delete id="delete" parameterType="java.util.Map">
     DELETE FROM `employee` WHERE `id` =#{id, jdbcType=INTEGER}    </delete>
     
     
@@ -237,9 +226,7 @@
             <if test="entity.entryTime != null">`entry_time` = #{entity.entryTime, jdbcType=VARCHAR}, </if>
             <if test="entity.levaeTime != null">`levae_time` = #{entity.levaeTime, jdbcType=VARCHAR}, </if>
             <if test="entity.createTime != null">`create_time` = #{entity.createTime, jdbcType=TIMESTAMP}, </if>
-            <if test="entity.modifyTime != null">`modify_time` = #{entity.modifyTime, jdbcType=TIMESTAMP}, </if>
             <if test="entity.deleteFlag != null">`delete_flag` = #{entity.deleteFlag, jdbcType=TINYINT}, </if>
-            `modify_time` = NOW(),
         </set>
         WHERE id = #{entity.id, jdbcType=INTEGER}
     </update>
@@ -260,9 +247,7 @@
 	            <if test="entity.entryTime != null">`entry_time` = #{entity.entryTime, jdbcType=VARCHAR}, </if>
 	            <if test="entity.levaeTime != null">`levae_time` = #{entity.levaeTime, jdbcType=VARCHAR}, </if>
 	            <if test="entity.createTime != null">`create_time` = #{entity.createTime, jdbcType=TIMESTAMP}, </if>
-	            <if test="entity.modifyTime != null">`modify_time` = #{entity.modifyTime, jdbcType=TIMESTAMP}, </if>
 	            <if test="entity.deleteFlag != null">`delete_flag` = #{entity.deleteFlag, jdbcType=TINYINT}, </if>
-	            `modify_time` = NOW(),
 	        </set>
 	        WHERE id = #{entity.id, jdbcType=INTEGER}
     	</foreach>
@@ -282,9 +267,7 @@
             <if test="entity.entryTime != null">`entry_time` = #{entity.entryTime, jdbcType=VARCHAR}, </if>
             <if test="entity.levaeTime != null">`levae_time` = #{entity.levaeTime, jdbcType=VARCHAR}, </if>
             <if test="entity.createTime != null">`create_time` = #{entity.createTime, jdbcType=TIMESTAMP}, </if>
-            <if test="entity.modifyTime != null">`modify_time` = #{entity.modifyTime, jdbcType=TIMESTAMP}, </if>
             <if test="entity.deleteFlag != null">`delete_flag` = #{entity.deleteFlag, jdbcType=TINYINT}, </if>
-            `modify_time` = NOW(),
         </set>
         <where>
             <include refid="base_sql_query_condition"/>

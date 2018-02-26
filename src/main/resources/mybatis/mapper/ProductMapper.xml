@@ -8,13 +8,12 @@
         <result column="price" property="price" jdbcType="INTEGER"/>
         <result column="status" property="status" jdbcType="TINYINT"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
-        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
         <result column="delete_flag" property="deleteFlag" jdbcType="TINYINT"/>
     </resultMap>
 
     <!-- 表中所有字段。 -->
     <sql id="table_all_columns">
-        `id`, `name`, `price`, `status`, `create_time`, `modify_time`, `delete_flag`
+        `id`, `name`, `price`, `status`, `create_time`, `delete_flag`
     </sql>
     
     <!-- 判断要获取的列。 -->
@@ -33,8 +32,6 @@
         <if test="query.status != null"> AND status = #{query.status, jdbcType=TINYINT} </if>
         <if test="query.createTimeBegin != null"> AND create_time >= #{query.createTimeBegin, jdbcType=TIMESTAMP} </if>
         <if test="query.createTimeEnd != null"> AND create_time &lt; #{query.createTimeEnd, jdbcType=TIMESTAMP} </if>
-        <if test="query.modifyTimeBegin != null"> AND modify_time >= #{query.modifyTimeBegin, jdbcType=TIMESTAMP} </if>
-        <if test="query.modifyTimeEnd != null"> AND modify_time &lt; #{query.modifyTimeEnd, jdbcType=TIMESTAMP} </if>
         <if test="query.deleteFlag != null"> AND delete_flag = #{query.deleteFlag, jdbcType=TINYINT} </if>
     </sql>
 

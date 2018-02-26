@@ -25,7 +25,6 @@ public class ProductServiceImpl extends AbstractBaseServiceImpl<ProductEntity, I
 		entity.setPrice(form.getPrice());
 		entity.setStatus(form.getStatus());
 		entity.setCreateTime(form.getCreateTime());
-		entity.setModifyTime(form.getModifyTime());
 		entity.setDeleteFlag(form.getDeleteFlag());
 		return entity;
 	}
@@ -40,7 +39,6 @@ public class ProductServiceImpl extends AbstractBaseServiceImpl<ProductEntity, I
 		form.setPrice(entity.getPrice());
 		form.setStatus(entity.getStatus());
 		form.setCreateTime(entity.getCreateTime());
-		form.setModifyTime(entity.getModifyTime());
 		form.setDeleteFlag(entity.getDeleteFlag());
 		return form;
 	}

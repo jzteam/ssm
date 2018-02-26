@@ -25,8 +25,6 @@ public class EmployeeForm implements Serializable{
 	private String levaeTime;
 	/** 创建时间 */
 	private Date createTime;
-	/** 修改时间 */
-	private Date modifyTime;
 	/** 逻辑删除标记：0-未删除，1-已删除 */
 	private Integer deleteFlag;
 
@@ -99,13 +97,6 @@ public class EmployeeForm implements Serializable{
 
 	public void setCreateTime(Date value) {
 		this.createTime = value;
-	}
-	public Date getModifyTime() {
-		return this.modifyTime;
-	}
-
-	public void setModifyTime(Date value) {
-		this.modifyTime = value;
 	}
 	public Integer getDeleteFlag() {
 		return this.deleteFlag;

@@ -22,9 +22,6 @@ public class UserBaseQuery extends QueryCondition implements Serializable{
 	/** 创建时间 */
 	private Date createTimeBegin;
 	private Date createTimeEnd;
-	/** 修改时间 */
-	private Date modifyTimeBegin;
-	private Date modifyTimeEnd;
 	/** 逻辑删除标记：0-未删除，1-已删除 */
 	private Integer deleteFlag;
 
@@ -82,22 +79,6 @@ public class UserBaseQuery extends QueryCondition implements Serializable{
 
 	public void setCreateTimeEnd(Date value) {
 		this.createTimeEnd = value;
-	}
-
-	public Date getModifyTimeBegin() {
-		return this.modifyTimeBegin;
-	}
-
-	public void setModifyTimeBegin(Date value) {
-		this.modifyTimeBegin = value;
-	}
-
-	public Date getModifyTimeEnd() {
-		return this.modifyTimeEnd;
-	}
-
-	public void setModifyTimeEnd(Date value) {
-		this.modifyTimeEnd = value;
 	}
 
 	public Integer getDeleteFlag() {
