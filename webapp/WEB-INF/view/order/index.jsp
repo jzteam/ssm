@@ -14,7 +14,7 @@
 
             <div class="page-header">
                 <div style="margin-bottom: 5px;">
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#myModal">新增</button>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#myModalAdd">新增</button>
                 </div>
             </div>
 
@@ -80,11 +80,11 @@
                         <div class="modal-body">
                             <div style="padding: 25px 100px 10px;">
                                 <form id="addFormId">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">id</span>
-                                            <input type="text" class="form-control" placeholder="必填参数"
-                                                   name="id" id="idAdd"/>
-                                        </div>
+                                        <%--<div class="input-group">--%>
+                                            <%--<span class="input-group-addon">id</span>--%>
+                                            <%--<input type="text" class="form-control" placeholder="必填参数"--%>
+                                                   <%--name="id" id="idAdd"/>--%>
+                                        <%--</div>--%>
                                         <div class="input-group">
                                             <span class="input-group-addon">userId</span>
                                             <input type="text" class="form-control" placeholder="必填参数"
