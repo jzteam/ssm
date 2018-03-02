@@ -46,5 +46,4 @@
         <property name="basePackage" value="cn.jzteam.barber.dao"/>
     </bean>
 
-
 </beans>
